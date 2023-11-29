@@ -1,5 +1,0 @@
-#Wed Nov 29 17:13:59 BRT 2023
-configuration*?=9F3841F13E62807F00D7BE80C10B56B80192E56
-module-resource*?\:checkstyle-xpath-suppressions.xml=D2B436716815F97F9CAC016FE253EF723DAE0C5
-module-resource*?\:checkstyle-suppressions.xml=BE38EC98D6C1E40F0D237D68F53029421505EA51
-/home/sergio/Personal_projects/simple-login-backend-java/src/main/resources/application.properties=1701283545000

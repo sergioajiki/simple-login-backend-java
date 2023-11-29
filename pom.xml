@@ -8,7 +8,7 @@
 		<version>3.2.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>Personal.Project</groupId>
+	<groupId>personal.project</groupId>
 	<artifactId>login-page</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>login-page</name>

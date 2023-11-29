@@ -1,4 +1,4 @@
-package Personal.Project.loginpage;
+package personal.project.loginpage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
