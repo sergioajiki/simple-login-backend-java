@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/Personal/Project/loginpage/controller/Health.java">
+<error line="1" severity="error" message="O arquivo package-info.java está faltando." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck"/>
+<error line="1" column="9" severity="error" message="O nome &apos;Personal.Project.loginpage.controller&apos; deve condizer com o padrão &apos;^[a-z]+(\.[a-zA-Z_][a-zA-Z0-9_]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+<error line="10" column="3" severity="error" message="A classe &apos;Health&apos; parece ter sido projetada para extensão (permite subclasses), mas o método &apos;sayHello&apos; não tem um javadoc que explica como fazer isso de forma segura. Se a classe não é projetada para extensão, considere fazer a classe &apos;Health&apos; ser final, tornar o método &apos;sayHello&apos; estático/final/abstrato/vazio ou adicione as anotações permitidas ao método." source="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck"/>
+<error line="10" column="3" severity="error" message="Falta o comentário Javadoc." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/Personal/Project/loginpage/LoginPageApplication.java">
+<error line="1" severity="error" message="O arquivo package-info.java está faltando." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck"/>
+<error line="1" column="9" severity="error" message="O nome &apos;Personal.Project.loginpage&apos; deve condizer com o padrão &apos;^[a-z]+(\.[a-zA-Z_][a-zA-Z0-9_]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+<error line="6" column="1" severity="error" message="Classes utilitárias não deveriam ter construtores públicos ou com visibilidade de pacote." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
+<error line="9" column="1" severity="error" message="O arquivo contém caracteres de tabulação (esta é a primeira ocorrência)." source="com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheck"/>
+<error line="9" column="9" severity="error" message="Falta o comentário Javadoc." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="9" column="33" severity="error" message="O parâmetro args deve ser final." source="com.puppycrawl.tools.checkstyle.checks.FinalParametersCheck"/>
+</file>
+<file name="/home/sergio/Personal_projects/simple-login-backend-java/src/main/resources/application.properties">
+</file>
+</checkstyle>
