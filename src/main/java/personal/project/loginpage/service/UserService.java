@@ -1,6 +1,7 @@
 package personal.project.loginpage.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import personal.project.loginpage.UserDto;
 import personal.project.loginpage.entity.User;
@@ -29,5 +30,10 @@ public class UserService {
 
   public List<User> findAll() {
     return userRepository.findAll();
+  }
+
+  public User findUserById(Long id) {
+    Optional<User> user = userRepository.findById(id);
+    return user.get();
   }
 }
