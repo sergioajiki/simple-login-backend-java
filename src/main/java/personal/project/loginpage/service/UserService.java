@@ -7,10 +7,12 @@ import personal.project.loginpage.UserDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import personal.project.loginpage.exception.NotFoundException;
 import personal.project.loginpage.repository.UserRepository;
 
 @Service
 public class UserService {
+
   private final UserRepository userRepository;
 
   @Autowired
@@ -32,8 +34,13 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public User findUserById(Long id) {
-    Optional<User> user = userRepository.findById(id);
-    return user.get();
+  public UserDto findUserById(Long id) {
+    Optional<User> userOptional = userRepository.findById(id);
+    if (userOptional.isEmpty()) {
+      throw new NotFoundException("User not found");
+    }
+
+    UserDto userFoundDto = UserDto.userToUserDto(userOptional.get());
+    return userFoundDto;
   }
 }
