@@ -1,6 +1,7 @@
 package personal.project.loginpage.service;
 
 import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import personal.project.loginpage.UserDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,13 @@ public class UserService {
   }
 
   public UserDto create(UserDto userDto) {
-    return userRepository.save(userDto);
+    User userToSave = UserDto.userDtoToUser(userDto);
+    String hashedPassword = new BCryptPasswordEncoder()
+        .encode(userToSave.getPassword());
+    userToSave.setPassword(hashedPassword);
+    userRepository.save(userToSave);
+    UserDto savedUser = UserDto.userToUserDto(userToSave);
+    return savedUser;
   }
 
   public List<User> findAll() {
