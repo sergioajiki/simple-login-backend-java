@@ -1,7 +1,9 @@
 package personal.project.loginpage.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +24,11 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
     User savedUser = userService.create(user);
     return ResponseEntity.status(201).body(savedUser);
+  }
+
+  @GetMapping()
+    public List<User> getAllUsers() {
+    List<User> allUsers = userService.findAll();
+    return allUsers;
   }
 }
