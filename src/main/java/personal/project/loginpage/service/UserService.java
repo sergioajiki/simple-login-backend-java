@@ -39,8 +39,18 @@ public class UserService {
     if (userOptional.isEmpty()) {
       throw new NotFoundException("User not found");
     }
-
     UserDto userFoundDto = UserDto.userToUserDto(userOptional.get());
     return userFoundDto;
   }
+
+  public User findUserByUsername(String usernameDto) {
+    Optional<User> userOptional = userRepository.findByUsername(usernameDto);
+    if (userOptional.isEmpty()) {
+      throw new NotFoundException("User not found");
+    }
+    User userFound = userOptional.get();
+    return userFound;
+  }
+
+
 }
