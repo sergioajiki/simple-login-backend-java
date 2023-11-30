@@ -52,5 +52,12 @@ public class UserService {
     return userFound;
   }
 
-
+  public User findUserByEmail(String emailDto) {
+    Optional<User> userOptional = userRepository.findByEmail(emailDto);
+    if (userOptional.isEmpty()) {
+      throw new NotFoundException("User not found");
+    }
+    User userFound = userOptional.get();
+    return userFound;
+  }
 }
