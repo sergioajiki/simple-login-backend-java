@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import personal.project.loginpage.dto.UserDto;
+import personal.project.loginpage.dto.UserWithoutPasswordDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +35,12 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public UserDto findUserById(Long id) {
+  public UserWithoutPasswordDto findUserById(Long id) {
     Optional<User> userOptional = userRepository.findById(id);
     if (userOptional.isEmpty()) {
       throw new NotFoundException("User not found");
     }
-    UserDto userFoundDto = UserDto.userToUserDto(userOptional.get());
+    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userOptional.get());
     return userFoundDto;
   }
 

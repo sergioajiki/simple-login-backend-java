@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import personal.project.loginpage.dto.UserDto;
+import personal.project.loginpage.dto.UserWithoutPasswordDto;
 import personal.project.loginpage.entity.User;
 import personal.project.loginpage.service.UserService;
 
@@ -38,8 +39,8 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-    UserDto userFoundDto = userService.findUserById(id);
+  public ResponseEntity<UserWithoutPasswordDto> getUserById(@PathVariable Long id) {
+    UserWithoutPasswordDto userFoundDto = userService.findUserById(id);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }
 }
