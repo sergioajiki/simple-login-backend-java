@@ -1,6 +1,7 @@
 package personal.project.loginpage.service;
 
 import java.util.List;
+import personal.project.loginpage.UserDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
-  public User create(User user) {
-    return userRepository.save(user);
+  public UserDto create(UserDto userDto) {
+    return userRepository.save(userDto);
   }
 
   public List<User> findAll() {
