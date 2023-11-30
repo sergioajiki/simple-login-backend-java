@@ -1,4 +1,4 @@
-package personal.project.loginpage;
+package personal.project.loginpage.dto;
 
 import personal.project.loginpage.entity.User;
 public record UserDto(

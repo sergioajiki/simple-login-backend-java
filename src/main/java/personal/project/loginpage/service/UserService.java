@@ -3,7 +3,7 @@ package personal.project.loginpage.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import personal.project.loginpage.UserDto;
+import personal.project.loginpage.dto.UserDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
