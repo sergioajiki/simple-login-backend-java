@@ -43,4 +43,10 @@ public class UserController {
     UserWithoutPasswordDto userFoundDto = userService.findUserById(id);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }
+
+  @PostMapping("/username")
+  public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody UserDto username) {
+    UserWithoutPasswordDto userFoundDto = userService.findUserByUsername(username);
+    return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
+  }
 }

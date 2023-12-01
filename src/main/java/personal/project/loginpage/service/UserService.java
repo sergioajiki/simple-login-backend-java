@@ -44,13 +44,14 @@ public class UserService {
     return userFoundDto;
   }
 
-  public User findUserByUsername(String usernameDto) {
-    Optional<User> userOptional = userRepository.findByUsername(usernameDto);
+  public UserWithoutPasswordDto findUserByUsername(UserDto username) {
+    Optional<User> userOptional = userRepository.findByUsername(username.username());
     if (userOptional.isEmpty()) {
       throw new NotFoundException("User not found");
     }
     User userFound = userOptional.get();
-    return userFound;
+    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userFound);
+    return userFoundDto;
   }
 
   public User findUserByEmail(String emailDto) {
