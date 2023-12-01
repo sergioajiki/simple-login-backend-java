@@ -1,5 +1,6 @@
 package personal.project.loginpage.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class UserController {
   }
 
   @PostMapping("/username")
-  public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody UserDto username) {
+  public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody @Valid UserDto username) {
     UserWithoutPasswordDto userFoundDto = userService.findUserByUsername(username);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }
