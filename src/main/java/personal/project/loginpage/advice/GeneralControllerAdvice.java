@@ -2,6 +2,7 @@ package personal.project.loginpage.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -35,4 +36,13 @@ public class GeneralControllerAdvice {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
   }
 
+  @ExceptionHandler
+  public ResponseEntity<Problem> handleNotFoundField(MethodArgumentNotValidException exception) {
+    Problem problem = new Problem(
+        HttpStatus.BAD_REQUEST.value(),
+        "Invalid argument",
+        exception.getBindingResult().getAllErrors().get(0).getDefaultMessage()
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
+  }
 }

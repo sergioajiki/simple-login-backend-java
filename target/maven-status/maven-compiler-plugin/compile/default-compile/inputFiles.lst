@@ -1,0 +1,12 @@
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/security/SecurityConfig.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/service/UserService.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/dto/UserWithoutPasswordDto.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/entity/User.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/exception/NotFoundException.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/repository/UserRepository.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/advice/Problem.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/controller/UserController.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/controller/HealthController.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/LoginPageApplication.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/dto/UserDto.java
+/home/sergio/Personal_projects/simple-login-backend-java/src/main/java/personal/project/loginpage/advice/GeneralControllerAdvice.java
