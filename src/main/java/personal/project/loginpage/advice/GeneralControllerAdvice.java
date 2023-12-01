@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import personal.project.loginpage.exception.NotFoundException;
 
 @ControllerAdvice
@@ -12,4 +13,25 @@ public class GeneralControllerAdvice {
   public ResponseEntity<String> handleNotFoundException(NotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
   }
+
+  @ExceptionHandler
+  public ResponseEntity<Problem> handleNotCaught(Exception exception) {
+    Problem problem = new Problem(
+        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+        "Erro Interno",
+        exception.getMessage()
+    );
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problem);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<Problem> handleInvalidType(MethodArgumentTypeMismatchException exception) {
+    Problem problem = new Problem(
+        HttpStatus.BAD_REQUEST.value(),
+        "Invalid Type Format",
+        exception.getMessage()
+    );
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problem);
+  }
+
 }
