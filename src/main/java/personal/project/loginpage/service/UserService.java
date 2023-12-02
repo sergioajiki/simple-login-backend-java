@@ -3,8 +3,10 @@ package personal.project.loginpage.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import personal.project.loginpage.dto.EmailDto;
 import personal.project.loginpage.dto.UserDto;
 import personal.project.loginpage.dto.UserWithoutPasswordDto;
+import personal.project.loginpage.dto.UsernameDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,7 @@ public class UserService {
     return userFoundDto;
   }
 
-  public UserWithoutPasswordDto findUserByUsername(UserDto username) {
+  public UserWithoutPasswordDto findUserByUsername(UsernameDto username) {
     Optional<User> userOptional = userRepository.findByUsername(username.username());
     if (userOptional.isEmpty()) {
       throw new NotFoundException("Username does not match any user");
@@ -54,7 +56,7 @@ public class UserService {
     return userFoundDto;
   }
 
-  public UserWithoutPasswordDto findUserByEmail(UserDto email) {
+  public UserWithoutPasswordDto findUserByEmail(EmailDto email) {
     Optional<User> userOptional = userRepository.findByEmail(email.email());
     if (userOptional.isEmpty()) {
       throw new NotFoundException("Email does not match any user");

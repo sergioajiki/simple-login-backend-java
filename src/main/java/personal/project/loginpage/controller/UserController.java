@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import personal.project.loginpage.dto.EmailDto;
 import personal.project.loginpage.dto.UserDto;
 import personal.project.loginpage.dto.UserWithoutPasswordDto;
+import personal.project.loginpage.dto.UsernameDto;
 import personal.project.loginpage.entity.User;
 import personal.project.loginpage.service.UserService;
 
@@ -28,7 +30,7 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
     UserDto savedUser = userService.create(userDto);
     return ResponseEntity.status(201).body(savedUser);
   }
@@ -46,13 +48,13 @@ public class UserController {
   }
 
   @PostMapping("/username")
-  public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody @Valid UserDto username) {
+  public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody @Valid UsernameDto username) {
     UserWithoutPasswordDto userFoundDto = userService.findUserByUsername(username);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }
 
   @PostMapping("/email")
-  public ResponseEntity<UserWithoutPasswordDto> getUserByEmail(@RequestBody @Valid UserDto email) {
+  public ResponseEntity<UserWithoutPasswordDto> getUserByEmail(@RequestBody @Valid EmailDto email) {
     UserWithoutPasswordDto userFoundDto = userService.findUserByEmail(email);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }

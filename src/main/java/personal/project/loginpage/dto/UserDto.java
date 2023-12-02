@@ -7,8 +7,8 @@ public record UserDto(
   Long id,
   @NotBlank(message = "Field username can not be null or empty") String username,
   @Email @NotBlank String email,
-  String password,
-  String role
+  @NotBlank String password,
+  @NotBlank String role
 ) {
   public static UserDto userToUserDto(User user) {
     return new UserDto(
