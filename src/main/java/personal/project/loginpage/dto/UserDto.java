@@ -2,12 +2,11 @@ package personal.project.loginpage.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import personal.project.loginpage.entity.User;
 public record UserDto(
   Long id,
   @NotBlank(message = "Field username can not be null or empty") String username,
-  @Email String email,
+  @Email @NotBlank String email,
   String password,
   String role
 ) {

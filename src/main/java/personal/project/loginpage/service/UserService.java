@@ -38,7 +38,7 @@ public class UserService {
   public UserWithoutPasswordDto findUserById(Long id) {
     Optional<User> userOptional = userRepository.findById(id);
     if (userOptional.isEmpty()) {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException("ID does not match any user");
     }
     UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userOptional.get());
     return userFoundDto;
@@ -47,19 +47,20 @@ public class UserService {
   public UserWithoutPasswordDto findUserByUsername(UserDto username) {
     Optional<User> userOptional = userRepository.findByUsername(username.username());
     if (userOptional.isEmpty()) {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException("Username does not match any user");
     }
     User userFound = userOptional.get();
     UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userFound);
     return userFoundDto;
   }
 
-  public User findUserByEmail(String emailDto) {
-    Optional<User> userOptional = userRepository.findByEmail(emailDto);
+  public UserWithoutPasswordDto findUserByEmail(UserDto email) {
+    Optional<User> userOptional = userRepository.findByEmail(email.email());
     if (userOptional.isEmpty()) {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException("Email does not match any user");
     }
     User userFound = userOptional.get();
-    return userFound;
+    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userFound);
+    return userFoundDto;
   }
 }
