@@ -28,7 +28,8 @@ public class GeneralControllerAdvice {
     Problem problem = new Problem(
         HttpStatus.NOT_FOUND.value(),
         "User Not Found",
-        exception.getMessage()
+        exception.getMessage(),
+        null
     );
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
   }
@@ -37,8 +38,9 @@ public class GeneralControllerAdvice {
   public ResponseEntity<Problem> handleNotCaught(Exception exception) {
     Problem problem = new Problem(
         HttpStatus.INTERNAL_SERVER_ERROR.value(),
-        "Erro Interno",
-        exception.getMessage()
+        "Internal Server Error",
+        exception.getMessage(),
+        null
     );
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problem);
   }
@@ -48,25 +50,31 @@ public class GeneralControllerAdvice {
     Problem problem = new Problem(
         HttpStatus.BAD_REQUEST.value(),
         "Invalid Type Format",
-        exception.getMessage()
+        exception.getMessage(),
+        null
     );
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<List<ErrorMessageDto>> handleNotFoundField(
-      MethodArgumentNotValidException exception) {
+  public ResponseEntity<Problem> handleNotFoundField(MethodArgumentNotValidException exception) {
 
     List<ErrorMessageDto> probList = new ArrayList<>();
-    exception.getBindingResult().getFieldErrors().forEach(e -> {
-      String message = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-      ErrorMessageDto problem = new ErrorMessageDto(
-          e.getField(),
-          message
-      );
-      probList.add(problem);
-    });
 
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(probList);
+    exception.getBindingResult().getFieldErrors().forEach(e -> {
+      String detail = messageSource.getMessage(e, LocaleContextHolder.getLocale());
+      ErrorMessageDto messageDetail = new ErrorMessageDto(
+          e.getField(),
+          detail
+      );
+      probList.add(messageDetail);
+    });
+    Problem problem = new Problem(
+        HttpStatus.BAD_REQUEST.value(),
+        "Invalid Parameters",
+        " Invalid Request Body",
+        probList
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
   }
 }
