@@ -31,6 +31,9 @@ public class UserService {
     if (!isEmail) {
       throw new InvalidEmailFormatException("Formato de email não é valido");
     }
+    if (userToSave.getPassword().length() < 6) {
+      
+    }
     String hashedPassword = new BCryptPasswordEncoder()
         .encode(userToSave.getPassword());
     userToSave.setPassword(hashedPassword);
