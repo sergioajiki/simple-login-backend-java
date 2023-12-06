@@ -10,8 +10,10 @@ import personal.project.loginpage.dto.UsernameDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import personal.project.loginpage.exception.InvalidEmailFormatException;
 import personal.project.loginpage.exception.NotFoundException;
 import personal.project.loginpage.repository.UserRepository;
+import personal.project.loginpage.util.EmailValidator;
 
 @Service
 public class UserService {
@@ -25,6 +27,10 @@ public class UserService {
 
   public UserDto create(UserDto userDto) {
     User userToSave = UserDto.userDtoToUser(userDto);
+    boolean isEmail = EmailValidator.isValidEmail(userToSave.getEmail());
+    if (!isEmail) {
+      throw new InvalidEmailFormatException("Formato de email não é valido");
+    }
     String hashedPassword = new BCryptPasswordEncoder()
         .encode(userToSave.getPassword());
     userToSave.setPassword(hashedPassword);
@@ -42,7 +48,8 @@ public class UserService {
     if (userOptional.isEmpty()) {
       throw new NotFoundException("ID does not match any user");
     }
-    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userOptional.get());
+    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(
+        userOptional.get());
     return userFoundDto;
   }
 
@@ -52,17 +59,23 @@ public class UserService {
       throw new NotFoundException("Username does not match any user");
     }
     User userFound = userOptional.get();
-    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userFound);
+    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(
+        userFound);
     return userFoundDto;
   }
 
   public UserWithoutPasswordDto findUserByEmail(EmailDto email) {
+    boolean isEmail = EmailValidator.isValidEmail(email.email());
+    if (!isEmail) {
+      throw new InvalidEmailFormatException("Formato de email não é valido");
+    }
     Optional<User> userOptional = userRepository.findByEmail(email.email());
     if (userOptional.isEmpty()) {
       throw new NotFoundException("Email does not match any user");
     }
     User userFound = userOptional.get();
-    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(userFound);
+    UserWithoutPasswordDto userFoundDto = UserWithoutPasswordDto.UserWithoutPasswordToDto(
+        userFound);
     return userFoundDto;
   }
 }

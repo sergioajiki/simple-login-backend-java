@@ -6,7 +6,7 @@ import personal.project.loginpage.entity.User;
 public record UserDto(
   Long id,
   @NotBlank(message = "Field username can not be null or empty") String username,
-  @Email @NotBlank String email,
+  @NotBlank String email,
   @NotBlank String password,
   @NotBlank String role
 ) {

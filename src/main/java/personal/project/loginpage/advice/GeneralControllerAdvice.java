@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import personal.project.loginpage.exception.InvalidEmailFormatException;
 import personal.project.loginpage.exception.NotFoundException;
 
 @ControllerAdvice
@@ -34,6 +35,16 @@ public class GeneralControllerAdvice {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
   }
 
+  @ExceptionHandler
+  public ResponseEntity<Problem> handleInvalidEmailFormat(InvalidEmailFormatException exception) {
+    Problem problem = new Problem(
+        HttpStatus.BAD_REQUEST.value(),
+        "Invalid Email Format",
+        exception.getMessage(),
+        null
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
+  }
   @ExceptionHandler
   public ResponseEntity<Problem> handleNotCaught(Exception exception) {
     Problem problem = new Problem(
