@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import personal.project.loginpage.dto.EmailDto;
+import personal.project.loginpage.dto.LoginDto;
 import personal.project.loginpage.dto.UserDto;
 import personal.project.loginpage.dto.UserWithoutPasswordDto;
 import personal.project.loginpage.dto.UsernameDto;
@@ -11,6 +12,7 @@ import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import personal.project.loginpage.exception.InvalidEmailFormatException;
+import personal.project.loginpage.exception.InvalidLoginException;
 import personal.project.loginpage.exception.NotFoundException;
 import personal.project.loginpage.repository.UserRepository;
 import personal.project.loginpage.util.EmailValidator;
@@ -81,4 +83,12 @@ public class UserService {
         userFound);
     return userFoundDto;
   }
+
+  public String login(LoginDto login) {
+
+    Optional<User> userOptional = userRepository.findByUsername(login.username());
+    if(userOptional.isEmpty()) {
+      throw new InvalidLoginException("Username or password not found");
+    }
+
 }

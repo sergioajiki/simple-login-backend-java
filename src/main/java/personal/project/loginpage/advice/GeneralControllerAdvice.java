@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import personal.project.loginpage.exception.InvalidEmailFormatException;
+import personal.project.loginpage.exception.InvalidLoginException;
 import personal.project.loginpage.exception.NotFoundException;
 
 @ControllerAdvice
@@ -87,5 +88,16 @@ public class GeneralControllerAdvice {
         probList
     );
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<Problem> handleInvalidLoginException(InvalidLoginException exception) {
+    Problem problem = new Problem(
+        HttpStatus.UNAUTHORIZED.value(),
+        "Unauthorized Login",
+        exception.getMessage(),
+        null
+    );
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problem);
   }
 }
