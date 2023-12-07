@@ -33,9 +33,6 @@ public class UserService {
     if (!isEmail) {
       throw new InvalidEmailFormatException("Formato de email não é valido");
     }
-    if (userToSave.getPassword().length() < 6) {
-      
-    }
     String hashedPassword = new BCryptPasswordEncoder()
         .encode(userToSave.getPassword());
     userToSave.setPassword(hashedPassword);
@@ -85,10 +82,18 @@ public class UserService {
   }
 
   public String login(LoginDto login) {
-
     Optional<User> userOptional = userRepository.findByUsername(login.username());
-    if(userOptional.isEmpty()) {
+    if (userOptional.isEmpty()) {
       throw new InvalidLoginException("Username or password not found");
     }
+    BCryptPasswordEncoder bcp = new BCryptPasswordEncoder();
+    System.out.println(bcp.encode(login.password()));
+    System.out.println(userOptional.get().getPassword());
 
+    if (bcp.matches(login.password(), userOptional.get().getPassword())) {
+      return "Sucess login";
+    } else {
+      throw new InvalidLoginException("Username or password not found");
+    }
+  }
 }

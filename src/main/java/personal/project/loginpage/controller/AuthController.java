@@ -1,11 +1,15 @@
 package personal.project.loginpage.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import personal.project.loginpage.dto.LoginDto;
+import personal.project.loginpage.dto.UserWithoutPasswordDto;
 import personal.project.loginpage.service.UserService;
 
 @RestController
@@ -18,8 +22,9 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-
+  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) throws M {
+    String resultOfLogin = userService.login(loginDto);
+    return ResponseEntity.status(HttpStatus.OK).body(resultOfLogin);
   }
 
 }
