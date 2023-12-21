@@ -33,6 +33,10 @@ public class UserService {
     if (!isEmail) {
       throw new InvalidEmailFormatException("Formato de email não é valido");
     }
+//    Optional<User> verifyUserOptional = userRepository.findByUsername(userToSave.getUsername());
+//    if (verifyUserOptional.isPresent()) {
+//      throw new
+//    }
     String hashedPassword = new BCryptPasswordEncoder()
         .encode(userToSave.getPassword());
     userToSave.setPassword(hashedPassword);

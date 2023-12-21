@@ -22,7 +22,7 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) throws M {
+  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
     String resultOfLogin = userService.login(loginDto);
     return ResponseEntity.status(HttpStatus.OK).body(resultOfLogin);
   }
