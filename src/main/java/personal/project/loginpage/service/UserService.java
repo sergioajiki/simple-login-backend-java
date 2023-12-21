@@ -11,6 +11,7 @@ import personal.project.loginpage.dto.UsernameDto;
 import personal.project.loginpage.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import personal.project.loginpage.exception.DuplicateEntryException;
 import personal.project.loginpage.exception.InvalidEmailFormatException;
 import personal.project.loginpage.exception.InvalidLoginException;
 import personal.project.loginpage.exception.NotFoundException;
@@ -30,13 +31,21 @@ public class UserService {
   public UserDto create(UserDto userDto) {
     User userToSave = UserDto.userDtoToUser(userDto);
     boolean isEmail = EmailValidator.isValidEmail(userToSave.getEmail());
+
     if (!isEmail) {
       throw new InvalidEmailFormatException("Formato de email não é valido");
     }
-//    Optional<User> verifyUserOptional = userRepository.findByUsername(userToSave.getUsername());
-//    if (verifyUserOptional.isPresent()) {
-//      throw new
-//    }
+
+    Optional<User> verifyUsernameOptional = userRepository.findByUsername(userToSave.getUsername());
+    if (verifyUsernameOptional.isPresent()) {
+      throw new DuplicateEntryException("User already exist");
+    }
+
+    Optional<User> verifyUserEmailOptional = userRepository.findByEmail(userToSave.getEmail());
+    if (verifyUserEmailOptional.isPresent()) {
+      throw new DuplicateEntryException("Email already registered");
+    }
+
     String hashedPassword = new BCryptPasswordEncoder()
         .encode(userToSave.getPassword());
     userToSave.setPassword(hashedPassword);

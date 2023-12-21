@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import personal.project.loginpage.exception.DuplicateEntryException;
 import personal.project.loginpage.exception.InvalidEmailFormatException;
 import personal.project.loginpage.exception.InvalidLoginException;
 import personal.project.loginpage.exception.NotFoundException;
@@ -99,5 +100,16 @@ public class GeneralControllerAdvice {
         null
     );
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problem);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<Problem> handleDuplicateEntryException(DuplicateEntryException exception) {
+    Problem problem = new Problem(
+        HttpStatus.CONFLICT.value(),
+        "Duplicate Entry User",
+        exception.getMessage(),
+        null
+    );
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(problem);
   }
 }
