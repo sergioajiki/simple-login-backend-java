@@ -130,6 +130,11 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return userRepository.findDetailByUsername(username);
+    Optional<User> userByUsernameOptional = userRepository.findByUsername(username);
+    if (userByUsernameOptional.isEmpty()) {
+      throw new InvalidLoginException("Username or password not found");
+    }
+    UserDetails user = userByUsernameOptional.get();
+    return user;
   }
 }

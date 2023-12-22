@@ -2,9 +2,10 @@ package personal.project.loginpage.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +27,12 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<TokenDto> login(@RequestBody @Valid LoginDto loginDto) {
-    TokenDto resultOfLogin = userService.login(loginDto);
-    return ResponseEntity.status(HttpStatus.OK).body(resultOfLogin);
+  public String login(@RequestBody @Valid LoginDto loginDto) {
+    UsernamePasswordAuthenticationToken usernamePassword =
+        new UsernamePasswordAuthenticationToken(loginDto.username(), loginDto.password());
+    Authentication auth = authenticationManager.authenticate(usernamePassword);
+    return "Success - logged with " + auth.getName();
+//    TokenDto resultOfLogin = userService.login(loginDto);
+//    return ResponseEntity.status(HttpStatus.OK).body(resultOfLogin);
   }
 }
