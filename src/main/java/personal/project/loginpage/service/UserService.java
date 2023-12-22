@@ -115,4 +115,13 @@ public class UserService {
     return new TokenDto(token);
 //    return "ok";
   }
+
+  public String deleteUser(Long id) {
+    Optional<User> userOptional = userRepository.findById(id);
+    if (userOptional.isEmpty()) {
+      throw new NotFoundException("ID does not match any user");
+    }
+    userRepository.deleteById(id);
+    return "Done";
+  }
 }
