@@ -1,5 +1,6 @@
 package personal.project.loginpage.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,8 +61,20 @@ public class UserService implements UserDetailsService {
     return savedUser;
   }
 
-  public List<User> findAll() {
-    return userRepository.findAll();
+  public List<UserWithoutPasswordDto> findAll() {
+    List<User> listUser = userRepository.findAll();
+    List<UserWithoutPasswordDto> listWithPass = new ArrayList<>();
+
+    listUser.forEach(user -> {
+      UserWithoutPasswordDto userWithoutPasswordDto = new UserWithoutPasswordDto(
+          user.getId(),
+          user.getUsername(),
+          user.getEmail(),
+          user.getRole()
+      );
+    listWithPass.add(userWithoutPasswordDto);
+    });
+    return listWithPass;
   }
 
   public UserWithoutPasswordDto findUserById(Long id) {

@@ -39,8 +39,8 @@ public class UserController {
 
   @GetMapping
   @Secured("admin")
-  public ResponseEntity<List<User>> getAllUsers() {
-    List<User> allUsers = userService.findAll();
+  public ResponseEntity<List<UserWithoutPasswordDto>> getAllUsers() {
+    List<UserWithoutPasswordDto> allUsers = userService.findAll();
     return ResponseEntity.status(HttpStatus.OK).body(allUsers);
   }
 
