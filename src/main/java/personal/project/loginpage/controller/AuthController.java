@@ -27,5 +27,4 @@ public class AuthController {
     TokenDto resultOfLogin = userService.login(loginDto);
     return ResponseEntity.status(HttpStatus.OK).body(resultOfLogin);
   }
-
 }

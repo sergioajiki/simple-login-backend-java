@@ -33,13 +33,13 @@ public class UserController {
   @PostMapping
   public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
     UserDto savedUser = userService.create(userDto);
-    return ResponseEntity.status(201).body(savedUser);
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
   }
 
   @GetMapping
-  public List<User> getAllUsers() {
+  public ResponseEntity<List<User>> getAllUsers() {
     List<User> allUsers = userService.findAll();
-    return allUsers;
+    return ResponseEntity.status(HttpStatus.OK).body(allUsers);
   }
 
   @GetMapping("/{id}")
