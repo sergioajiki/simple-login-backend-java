@@ -2,6 +2,9 @@ package personal.project.loginpage.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import personal.project.loginpage.dto.EmailDto;
 import personal.project.loginpage.dto.LoginDto;
@@ -20,7 +23,7 @@ import personal.project.loginpage.repository.UserRepository;
 import personal.project.loginpage.util.EmailValidator;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
   private final UserRepository userRepository;
   private final TokenService tokenService;
@@ -123,5 +126,10 @@ public class UserService {
     }
     userRepository.deleteById(id);
     return "Done";
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    return userRepository.findDetailByUsername(username);
   }
 }

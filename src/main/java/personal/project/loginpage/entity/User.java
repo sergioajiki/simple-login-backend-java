@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -65,27 +66,27 @@ public class User implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return true;
 
   }
   @Override
   public boolean isEnabled() {
-    return false;
+    return true;
 
   }
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return List.of();
   }
 
 }
