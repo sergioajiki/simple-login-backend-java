@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import personal.project.loginpage.dto.EmailDto;
 import personal.project.loginpage.dto.LoginDto;
+import personal.project.loginpage.dto.TokenDto;
 import personal.project.loginpage.dto.UserDto;
 import personal.project.loginpage.dto.UserWithoutPasswordDto;
 import personal.project.loginpage.dto.UsernameDto;
@@ -22,10 +23,12 @@ import personal.project.loginpage.util.EmailValidator;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final TokenService tokenService;
 
   @Autowired
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, TokenService tokenService) {
     this.userRepository = userRepository;
+    this.tokenService = tokenService;
   }
 
   public UserDto create(UserDto userDto) {
@@ -94,19 +97,22 @@ public class UserService {
     return userFoundDto;
   }
 
-  public String login(LoginDto login) {
-    Optional<User> userOptional = userRepository.findByUsername(login.username());
+  public TokenDto login(LoginDto loginDto) {
+    Optional<User> userOptional = userRepository.findByUsername(loginDto.username());
     if (userOptional.isEmpty()) {
       throw new InvalidLoginException("Username or password not found");
     }
     BCryptPasswordEncoder bcp = new BCryptPasswordEncoder();
-    System.out.println(bcp.encode(login.password()));
-    System.out.println(userOptional.get().getPassword());
+//    System.out.println(bcp.encode(loginDto.password()));
+//    System.out.println(userOptional.get().getPassword());
 
-    if (bcp.matches(login.password(), userOptional.get().getPassword())) {
-      return "Sucess login";
-    } else {
+    if (!bcp.matches(loginDto.password(), userOptional.get().getPassword())) {
       throw new InvalidLoginException("Username or password not found");
     }
+
+    String token = tokenService.generateToken(userOptional.get().getUsername());
+    System.out.println(token);
+    return new TokenDto(token);
+//    return "ok";
   }
 }

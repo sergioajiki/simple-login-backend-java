@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import personal.project.loginpage.dto.LoginDto;
+import personal.project.loginpage.dto.TokenDto;
 import personal.project.loginpage.dto.UserWithoutPasswordDto;
 import personal.project.loginpage.service.UserService;
 
@@ -22,8 +23,8 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-    String resultOfLogin = userService.login(loginDto);
+  public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
+    TokenDto resultOfLogin = userService.login(loginDto);
     return ResponseEntity.status(HttpStatus.OK).body(resultOfLogin);
   }
 
