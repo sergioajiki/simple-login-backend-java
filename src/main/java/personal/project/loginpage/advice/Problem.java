@@ -12,6 +12,5 @@ public record Problem(
     int status,
     String message,
     String detail,
-
     List<ErrorMessageDto> errors
 ) {}
