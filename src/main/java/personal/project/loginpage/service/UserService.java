@@ -100,21 +100,21 @@ public class UserService implements UserDetailsService {
     return userFoundDto;
   }
 
-  public TokenDto login(LoginDto loginDto) {
-    Optional<User> userOptional = userRepository.findByUsername(loginDto.username());
+  public TokenDto login(UserDetails user) {
+    Optional<User> userOptional = userRepository.findByUsername(user.getUsername());
     if (userOptional.isEmpty()) {
       throw new InvalidLoginException("Username or password not found");
     }
-    BCryptPasswordEncoder bcp = new BCryptPasswordEncoder();
+//    Verificação de senha agora é feita pelo authenticationManager
+//    BCryptPasswordEncoder bcp = new BCryptPasswordEncoder();
 //    System.out.println(bcp.encode(loginDto.password()));
 //    System.out.println(userOptional.get().getPassword());
-
-    if (!bcp.matches(loginDto.password(), userOptional.get().getPassword())) {
-      throw new InvalidLoginException("Username or password not found");
-    }
-
-    String token = tokenService.generateToken(userOptional.get().getUsername());
-    System.out.println(token);
+//    if (!bcp.matches(user.getPassword(), userOptional.get().getPassword())) {
+//      throw new InvalidLoginException("Username or password not found");
+//    }
+//    System.out.println(user.getUsername() + user.getPassword());
+    String token = tokenService.generateToken(user.getUsername());
+//    System.out.println(token);
     return new TokenDto(token);
 //    return "ok";
   }
