@@ -3,7 +3,6 @@ package personal.project.loginpage.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -37,12 +36,12 @@ public class SecurityConfig {
             //    não guarda o state
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
-        .authorizeHttpRequests(
-            authorize -> authorize
-                .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
-                .anyRequest().authenticated()
-        )
+//        .authorizeHttpRequests(
+//            authorize -> authorize
+//                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+//                .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
+//                .anyRequest().authenticated()
+//        )
         .addFilterBefore(
             securityFilter,
             UsernamePasswordAuthenticationFilter.class
