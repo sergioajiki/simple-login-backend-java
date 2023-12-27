@@ -49,14 +49,14 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
-//  @ApiOperation("Select user by Id")
+  @Operation(description = "Select user by Id")
   public ResponseEntity<UserWithoutPasswordDto> getUserById(@PathVariable Long id) {
     UserWithoutPasswordDto userFoundDto = userService.findUserById(id);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }
 
   @PostMapping("/username")
-//  @ApiOperation("Select user by username")
+  @Operation(description = "Select user by username")
   public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody @Valid UsernameDto username) {
 
     UserWithoutPasswordDto userFoundDto = userService.findUserByUsername(username);
@@ -64,14 +64,14 @@ public class UserController {
   }
 
   @PostMapping("/email")
-//  @ApiOperation("Select user by email")
+  @Operation(description = "Select user by email")
   public ResponseEntity<UserWithoutPasswordDto> getUserByEmail(@RequestBody @Valid EmailDto email) {
     UserWithoutPasswordDto userFoundDto = userService.findUserByEmail(email);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }
 
   @DeleteMapping("/{id}")
-//  @ApiOperation("Delete user by Id")
+  @Operation(description = "Delete user by Id")
   public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
     String result = userService.deleteUser(id);
     return ResponseEntity.status(HttpStatus.OK).body(result);
