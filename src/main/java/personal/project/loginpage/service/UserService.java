@@ -118,18 +118,8 @@ public class UserService implements UserDetailsService {
     if (userOptional.isEmpty()) {
       throw new InvalidLoginException("Username or password not found");
     }
-//    Verificação de senha agora é feita pelo authenticationManager
-//    BCryptPasswordEncoder bcp = new BCryptPasswordEncoder();
-//    System.out.println(bcp.encode(loginDto.password()));
-//    System.out.println(userOptional.get().getPassword());
-//    if (!bcp.matches(user.getPassword(), userOptional.get().getPassword())) {
-//      throw new InvalidLoginException("Username or password not found");
-//    }
-//    System.out.println(user.getUsername() + user.getPassword());
     String token = tokenService.generateToken(user.getUsername());
-//    System.out.println(token);
     return new TokenDto(token);
-//    return "ok";
   }
 
   public String deleteUser(Long id) {

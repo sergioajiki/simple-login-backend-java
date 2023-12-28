@@ -10,6 +10,6 @@ public class HealthController {
 
   @GetMapping
   public static String sayHello() {
-    return "Hello World!!!vvvvvv!!";
+    return "Success!!";
   }
 }
