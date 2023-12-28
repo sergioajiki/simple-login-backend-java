@@ -37,12 +37,13 @@ public class SecurityConfig {
             //    não guarda o state
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
-//        .authorizeHttpRequests(
-//            authorize -> authorize
-//                .requestMatchers(HttpMethod.POST, "/users").permitAll()
-//                .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
-//                .anyRequest().authenticated()
-//        )
+        .authorizeHttpRequests(
+            authorize -> authorize
+                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                .anyRequest().authenticated()
+        )
         .addFilterBefore(
             securityFilter,
             UsernamePasswordAuthenticationFilter.class

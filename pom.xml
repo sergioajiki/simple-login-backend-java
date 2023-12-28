@@ -88,26 +88,6 @@
       <version>2.3.0</version>
     </dependency>
 
-<!--    <dependency>-->
-<!--      <groupId>io.springfox</groupId>-->
-<!--      <artifactId>springfox-boot-starter</artifactId>-->
-<!--      <version>3.0.0</version>-->
-<!--    </dependency>-->
-
-<!--    &lt;!&ndash; Swagger 2 para a documentação da API &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>io.springfox</groupId>-->
-<!--      <artifactId>springfox-swagger2</artifactId>-->
-<!--      <version>3.0.0</version>-->
-<!--    </dependency>-->
-
-<!--    &lt;!&ndash; Swagger UI para a interface de usuário Swagger &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>io.springfox</groupId>-->
-<!--      <artifactId>springfox-swagger-ui</artifactId>-->
-<!--      <version>3.0.0</version>-->
-<!--    </dependency>-->
-
   </dependencies>
 
   <build>

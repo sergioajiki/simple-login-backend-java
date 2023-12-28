@@ -1,6 +1,8 @@
 package personal.project.loginpage.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,10 @@ import personal.project.loginpage.dto.EmailDto;
 import personal.project.loginpage.dto.UserDto;
 import personal.project.loginpage.dto.UserWithoutPasswordDto;
 import personal.project.loginpage.dto.UsernameDto;
-import personal.project.loginpage.entity.User;
 import personal.project.loginpage.service.UserService;
 
 @RestController
+@Tag(name = "Users")
 @RequestMapping(value = "/users")
 //@Api(tags = "Users Managemant", description = "Endpoints for users management")
 public class UserController {
