@@ -23,7 +23,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 
   private final TokenService tokenService;
   private final UserService userService;
-
   private final ObjectMapper objectMapper;
 
   @Autowired
@@ -37,17 +36,29 @@ public class SecurityFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    Optional<String> token = extractToken(request);
 
+    if (token.isEmpty()) {
+      Problem problem = new Problem(
+          HttpStatus.FORBIDDEN.value(),
+          "Token expired or invalid",
+          "Token ausente",
+          null
+      );
+      String json = objectMapper.writeValueAsString(problem);
+      response.setContentType("application/json; charset=UTF-8");
+      response.getWriter().write(json);
+      response.getWriter().flush();
+      response.getWriter().close();
+      return;
+    }
     try {
-      Optional<String> token = extractToken(request);
-      if (token.isPresent()) {
-        String subject = tokenService.validateToken(token.get());
-        UserDetails userDetails = userService.loadUserByUsername(subject);
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-            userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-      }
-      filterChain.doFilter(request, response);
+      String subject = tokenService.validateToken(token.get());
+      UserDetails userDetails = userService.loadUserByUsername(subject);
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+          userDetails, null, userDetails.getAuthorities());
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+
     } catch (Exception exception) {
 //      response.getWriter().println(exception.getLocalizedMessage());
       Problem problem = new Problem(
@@ -63,6 +74,7 @@ public class SecurityFilter extends OncePerRequestFilter {
       response.getWriter().close();
       return;
     }
+    filterChain.doFilter(request, response);
   }
 
   // Metodo para extrair o token do Header

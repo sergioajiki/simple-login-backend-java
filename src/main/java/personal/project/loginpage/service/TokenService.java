@@ -15,6 +15,7 @@ import java.time.ZoneOffset;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import personal.project.loginpage.exception.NotFoundException;
 
 @Service
 public class TokenService {
@@ -37,11 +38,11 @@ public class TokenService {
   }
 
   public String validateToken(String token) {
-      Algorithm algorithm = Algorithm.HMAC256(codeSecret);
-      return JWT.require(algorithm)
-          .build()
-          .verify(token)
-          .getSubject();
+    Algorithm algorithm = Algorithm.HMAC256(codeSecret);
+    return JWT.require(algorithm)
+        .build()
+        .verify(token)
+        .getSubject();
   }
 
   private SecurityScheme createAPIKeyScheme() {
