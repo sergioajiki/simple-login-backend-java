@@ -37,11 +37,11 @@ public class TokenService {
   }
 
   public String validateToken(String token) {
-    Algorithm algorithm = Algorithm.HMAC256(codeSecret);
-    return JWT.require(algorithm)
-        .build()
-        .verify(token)
-        .getSubject();
+      Algorithm algorithm = Algorithm.HMAC256(codeSecret);
+      return JWT.require(algorithm)
+          .build()
+          .verify(token)
+          .getSubject();
   }
 
   private SecurityScheme createAPIKeyScheme() {

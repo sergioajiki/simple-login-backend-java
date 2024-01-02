@@ -58,7 +58,6 @@ public class UserController {
   @PostMapping("/username")
   @Operation(description = "Select user by username")
   public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody @Valid UsernameDto username) {
-
     UserWithoutPasswordDto userFoundDto = userService.findUserByUsername(username);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }
