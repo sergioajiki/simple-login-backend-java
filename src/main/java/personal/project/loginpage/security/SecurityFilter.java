@@ -39,17 +39,18 @@ public class SecurityFilter extends OncePerRequestFilter {
     Optional<String> token = extractToken(request);
 
     if (token.isEmpty()) {
-      Problem problem = new Problem(
-          HttpStatus.FORBIDDEN.value(),
-          "Token expired or invalid",
-          "Token ausente",
-          null
-      );
-      String json = objectMapper.writeValueAsString(problem);
-      response.setContentType("application/json; charset=UTF-8");
-      response.getWriter().write(json);
-      response.getWriter().flush();
-      response.getWriter().close();
+      catchJWTError(response, "Token expired or invalid", "Token ausente");
+//      Problem problem = new Problem(
+//          HttpStatus.FORBIDDEN.value(),
+//          "Token expired or invalid",
+//          "Token ausente",
+//          null
+//      );
+//      String json = objectMapper.writeValueAsString(problem);
+//      response.setContentType("application/json; charset=UTF-8");
+//      response.getWriter().write(json);
+//      response.getWriter().flush();
+//      response.getWriter().close();
       return;
     }
     try {
@@ -60,18 +61,19 @@ public class SecurityFilter extends OncePerRequestFilter {
       SecurityContextHolder.getContext().setAuthentication(authentication);
 
     } catch (Exception exception) {
+      catchJWTError(response, "Token expired or invalid", exception.getLocalizedMessage());
 //      response.getWriter().println(exception.getLocalizedMessage());
-      Problem problem = new Problem(
-          HttpStatus.FORBIDDEN.value(),
-          "Token expired or invalid",
-          exception.getLocalizedMessage(),
-          null
-      );
-      String json = objectMapper.writeValueAsString(problem);
-      response.setContentType("application/json; charset=UTF-8");
-      response.getWriter().write(json);
-      response.getWriter().flush();
-      response.getWriter().close();
+//      Problem problem = new Problem(
+//          HttpStatus.FORBIDDEN.value(),
+//          "Token expired or invalid",
+//          exception.getLocalizedMessage(),
+//          null
+//      );
+//      String json = objectMapper.writeValueAsString(problem);
+//      response.setContentType("application/json; charset=UTF-8");
+//      response.getWriter().write(json);
+//      response.getWriter().flush();
+//      response.getWriter().close();
       return;
     }
     filterChain.doFilter(request, response);
@@ -85,5 +87,25 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
     return Optional.ofNullable(authHeader);
   }
+
+  private void catchJWTError(HttpServletResponse response, String title, String detail) throws IOException {
+    Problem problem = new Problem(
+        HttpStatus.FORBIDDEN.value(),
+        "Token expired or invalid",
+        detail,
+        null
+    );
+    String json = objectMapper.writeValueAsString(problem);
+    response.setContentType("application/json; charset=UTF-8");
+
+//    try (PrintWriter writer = response.getWriter()) {
+//      writer.write(json);
+//    }
+      response.getWriter().write(json);
+      response.getWriter().flush();
+      response.getWriter().close();
+
+  };
+
 }
 
