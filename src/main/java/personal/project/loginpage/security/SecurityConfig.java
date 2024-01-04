@@ -1,6 +1,6 @@
 package personal.project.loginpage.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,16 +15,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import personal.project.loginpage.service.TokenService;
+import personal.project.loginpage.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-  private final SecurityFilter securityFilter;
 
-  @Autowired
-  public SecurityConfig(SecurityFilter securityFilter) {
-    this.securityFilter = securityFilter;
+  private final UserService userService;
+  private final TokenService tokenService;
+  private final ObjectMapper objectMapper;
+  private final HandlerExceptionResolver handlerExceptionResolver;
+
+  public SecurityConfig(
+      UserService userService,
+      TokenService tokenService,
+      ObjectMapper objectMapper,
+      HandlerExceptionResolver handlerExceptionResolver
+  ) {
+    this.userService = userService;
+    this.tokenService = tokenService;
+    this.objectMapper = objectMapper;
+    this.handlerExceptionResolver = handlerExceptionResolver;
   }
 
   //  configuração básica
@@ -43,11 +56,12 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/users").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers("/health").permitAll()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
+                .permitAll()
                 .anyRequest().authenticated()
         )
         .addFilterBefore(
-            securityFilter,
+            new CustomFilter(userService, tokenService, handlerExceptionResolver, objectMapper),
             UsernamePasswordAuthenticationFilter.class
         )
         .build();

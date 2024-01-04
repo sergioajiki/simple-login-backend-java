@@ -1,5 +1,8 @@
 package personal.project.loginpage.advice;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +114,30 @@ public class GeneralControllerAdvice {
         null
     );
     return ResponseEntity.status(HttpStatus.CONFLICT).body(problem);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<Problem> handleTokenExpiredException(
+      TokenExpiredException exception,
+      HttpServletRequest request) {
+    Problem problem = new Problem(
+        HttpStatus.FORBIDDEN.value(),
+        "Token invalid or expired",
+        exception.getMessage(),
+        null
+    );
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problem);
+  }
+  public ResponseEntity<Problem> handleAJWTDecodeException(
+      JWTDecodeException exception,
+      HttpServletRequest request) {
+    Problem problem = new Problem(
+        HttpStatus.FORBIDDEN.value(),
+        "Token invalid",
+        exception.getMessage(),
+        null
+    );
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problem);
   }
 
 }

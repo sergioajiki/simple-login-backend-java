@@ -2,6 +2,8 @@ package personal.project.loginpage.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -38,11 +40,11 @@ public class TokenService {
   }
 
   public String validateToken(String token) {
-    Algorithm algorithm = Algorithm.HMAC256(codeSecret);
-    return JWT.require(algorithm)
-        .build()
-        .verify(token)
-        .getSubject();
+      Algorithm algorithm = Algorithm.HMAC256(codeSecret);
+      return JWT.require(algorithm)
+          .build()
+          .verify(token)
+          .getSubject();
   }
 
   private SecurityScheme createAPIKeyScheme() {
