@@ -50,6 +50,7 @@ public class GeneralControllerAdvice {
     );
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
   }
+
   @ExceptionHandler
   public ResponseEntity<Problem> handleNotCaught(Exception exception) {
     Problem problem = new Problem(
@@ -110,7 +111,7 @@ public class GeneralControllerAdvice {
     Problem problem = new Problem(
         HttpStatus.CONFLICT.value(),
         "Duplicate Entry User",
-        exception.getMessage(),
+        exception.getLocalizedMessage(),
         null
     );
     return ResponseEntity.status(HttpStatus.CONFLICT).body(problem);
@@ -128,7 +129,8 @@ public class GeneralControllerAdvice {
     );
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problem);
   }
-  public ResponseEntity<Problem> handleAJWTDecodeException(
+
+  public ResponseEntity<Problem> JWTDecodeException(
       JWTDecodeException exception,
       HttpServletRequest request) {
     Problem problem = new Problem(
@@ -139,5 +141,4 @@ public class GeneralControllerAdvice {
     );
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problem);
   }
-
 }

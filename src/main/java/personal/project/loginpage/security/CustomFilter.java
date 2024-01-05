@@ -49,12 +49,7 @@ public class CustomFilter extends GenericFilter {
             userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-      } catch (TokenExpiredException exception) {
-        handlerExceptionResolver.resolveException((HttpServletRequest) request,
-            (HttpServletResponse) response, null, exception);
-        return;
-      } catch (JWTDecodeException exception) {
-//      throw new RuntimeException("FAillll no token!!!");
+      } catch (TokenExpiredException | JWTDecodeException exception ) {
         handlerExceptionResolver.resolveException((HttpServletRequest) request,
             (HttpServletResponse) response, null, exception);
         return;
