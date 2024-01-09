@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import personal.project.loginpage.dto.EmailDto;
@@ -57,7 +58,8 @@ public class UserController {
 
   @PostMapping("/username")
   @Operation(description = "Select user by username")
-  public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(@RequestBody @Valid UsernameDto username) {
+  public ResponseEntity<UserWithoutPasswordDto> getUserByUsername(String authHeader,  @RequestBody @Valid UsernameDto username) {
+    System.out.println("header authorization " + authHeader);
     UserWithoutPasswordDto userFoundDto = userService.findUserByUsername(username);
     return ResponseEntity.status(HttpStatus.OK).body(userFoundDto);
   }

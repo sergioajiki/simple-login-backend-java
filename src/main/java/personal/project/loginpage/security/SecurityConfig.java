@@ -28,17 +28,19 @@ public class SecurityConfig {
   private final TokenService tokenService;
   private final ObjectMapper objectMapper;
   private final HandlerExceptionResolver handlerExceptionResolver;
+  private final CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint;
 
   public SecurityConfig(
       UserService userService,
       TokenService tokenService,
       ObjectMapper objectMapper,
-      HandlerExceptionResolver handlerExceptionResolver
-  ) {
+      HandlerExceptionResolver handlerExceptionResolver,
+      CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint) {
     this.userService = userService;
     this.tokenService = tokenService;
     this.objectMapper = objectMapper;
     this.handlerExceptionResolver = handlerExceptionResolver;
+    this.customBasicAuthenticationEntryPoint = customBasicAuthenticationEntryPoint;
   }
 
   //  configuração básica
@@ -60,6 +62,7 @@ public class SecurityConfig {
                 .permitAll()
                 .anyRequest().authenticated()
         )
+        .httpBasic((httpBasic -> httpBasic.authenticationEntryPoint(customBasicAuthenticationEntryPoint)))
         .addFilterBefore(
             new CustomFilter(userService, tokenService, handlerExceptionResolver, objectMapper),
             UsernamePasswordAuthenticationFilter.class

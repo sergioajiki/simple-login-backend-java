@@ -1,6 +1,5 @@
 package personal.project.loginpage.security;
 
-
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +40,7 @@ public class CustomFilter extends GenericFilter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain filterChain) throws IOException, ServletException {
+
     Optional<String> token = extractToken(request);
     if (token.isPresent()) {
       try {
@@ -48,10 +49,15 @@ public class CustomFilter extends GenericFilter {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
             userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-      } catch (TokenExpiredException | JWTDecodeException exception ) {
+      } catch (
+          TokenExpiredException
+          | JWTDecodeException exception) {
+        System.out.println(exception.getMessage());
         handlerExceptionResolver.resolveException((HttpServletRequest) request,
             (HttpServletResponse) response, null, exception);
+        return;
+      } catch (AccessDeniedException exception) {
+        System.out.println(exception.getMessage());
         return;
       }
     }
